@@ -1,0 +1,30 @@
+.background{
+    background-image: linear-gradient(to right, #ffe28a, #ffa07a 50%, #ff6f61 100%);
+    height: 100vh;
+    padding-top: 3.5rem;
+    text-align: center;
+}
+
+.form{
+    margin-block-start: 3rem;
+    margin-block-end: 3rem;
+}
+
+.link{
+    color: #EA580C;
+    text-decoration: none;
+}
+
+.link:hover{
+    text-decoration: underline;
+}
+
+.baseflex {
+    display: flex;
+    justify-content: center;
+}
+
+.background h3{
+    margin-block-start: 0rem;
+    padding-top:1rem;
+}

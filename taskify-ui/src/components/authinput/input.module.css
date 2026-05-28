@@ -1,0 +1,19 @@
+.inputwrapper{
+    margin-block-end: 1rem;
+}
+
+.inputlabel{
+    font-size: .875rem;
+    margin-block-end: .625rem;
+    font-weight: 500;
+    text-align: initial;
+}
+
+.input{
+    line-height: 1.5rem;
+    font-size: 1rem;
+    border-radius: .5rem;
+    padding:.5rem 1rem;
+    border: 1px solid #E5E7EB;
+    width: 28rem;
+}
