@@ -1,13 +1,13 @@
 import AuthInputCss from "./input.module.css"
 
-function AuthInput({type= 'text',name = '',placeholder = '',label = '',required=false}){
+function AuthInput({label = '',name = '',...rest}){
     return (
         <div className={AuthInputCss.inputwrapper}>
             <div className={AuthInputCss.inputlabel}>
                 <label htmlFor={name}>{label}</label>
             </div>
             <div>
-                <input className={AuthInputCss.input} type={type} name={name} placeholder={placeholder} required={required}/>
+                <input name={name} className={AuthInputCss.input} {...rest}/>
             </div>
         </div>
     );

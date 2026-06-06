@@ -5,9 +5,7 @@ import { useNavigate } from "react-router-dom";
 import AuthInput from "../../components/authinput/input";
 import AuthButton from "../../components/authbutton/button";
 
-import AuthInputCss from "../../components/authinput/input.module.css";
 import LoginCss from "../login/Login.module.css";
-import SignupCss from "./Signup.module.css";
 
 function Signup(){
     const navigate = useNavigate();

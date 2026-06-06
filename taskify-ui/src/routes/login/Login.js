@@ -5,33 +5,38 @@ import LoginCss from "./Login.module.css";
 import AuthInput from "../../components/authinput/input";
 import AuthButton from "../../components/authbutton/button";
 
-function Login(){
+function Login({setLogout}){
     const navigate = useNavigate();
-    function handleFormSubmit(e){
+    async function handleFormSubmit(e){
         e.preventDefault();
         const formElem = e.target;
         const formData = new FormData(formElem);
         const formObject = Object.fromEntries(formData.entries());
         // handle Api call here
         
-        try{
-            const res = await fetch("http://localhost:5000/api/auth/register",{
-                method: 'POST',
-                headers:{
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formObject)
-            });
+        // try{
+        //     const res = await fetch("http://localhost:5000/api/auth/register",{
+        //         method: 'POST',
+        //         headers:{
+        //             'Content-Type': 'application/json'
+        //         },
+        //         body: JSON.stringify(formObject)
+        //     });
 
-            if(res.ok){
-                navigate("/dashboard");
-            }
-            console.log(res);
-        }catch(e){
-            console.error(e);
-        }
-
-        // navigate("/dashboard");
+        //     if(res.ok){
+        //         navigate("/dashboard");
+        //     }
+        //     console.log(res);
+        // }catch(e){
+        //     console.error(e);
+        // }
+        const d =  new Date();
+        console.log("Login");
+        console.log(d.toString());
+        d.setTime(d.getTime() + 60 *1000);
+        console.log(d.toString());
+        setLogout(d.toString());                                                                                                                      
+        navigate("/dashboard");
     }
 
     return (
