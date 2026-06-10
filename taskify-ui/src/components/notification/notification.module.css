@@ -1,0 +1,14 @@
+.notify {
+    position: fixed;
+    z-index: 5;
+    padding: 1rem;
+    width: 200px;
+    left:10px;
+    top: 10px;
+    color: #ffffff;
+    background-color: #ffffff;
+    font-size: 1.25rem;
+    font-weight: 500;
+    border-radius: .5rem;
+    transition: opacity .5s ease-in-out;
+}

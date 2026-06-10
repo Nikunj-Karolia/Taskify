@@ -14,29 +14,25 @@ function Login({setLogout}){
         const formObject = Object.fromEntries(formData.entries());
         // handle Api call here
         
-        // try{
-        //     const res = await fetch("http://localhost:5000/api/auth/register",{
-        //         method: 'POST',
-        //         headers:{
-        //             'Content-Type': 'application/json'
-        //         },
-        //         body: JSON.stringify(formObject)
-        //     });
+        try{
+            const res = await fetch("http://localhost:5000/api/auth/login",{
+                method: 'POST',
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formObject)
+            });
 
-        //     if(res.ok){
-        //         navigate("/dashboard");
-        //     }
-        //     console.log(res);
-        // }catch(e){
-        //     console.error(e);
-        // }
-        const d =  new Date();
-        console.log("Login");
-        console.log(d.toString());
-        d.setTime(d.getTime() + 60 *1000);
-        console.log(d.toString());
-        setLogout(d.toString());                                                                                                                      
-        navigate("/dashboard");
+            if(res.ok){
+                const d =  new Date();
+                d.setTime(d.getTime() + 3600 *1000);
+                setLogout(d.toString());                                                                                                                      
+                navigate("/dashboard");
+            }
+            console.log(res);
+        }catch(e){
+            console.error(e);
+        }
     }
 
     return (

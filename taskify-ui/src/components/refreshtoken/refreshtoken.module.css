@@ -1,0 +1,36 @@
+.popup{
+    z-index:20;
+    position:fixed;
+    width: 400px;
+    background-color: #ffffff;
+    padding: 20px;
+    top:0;
+    left: calc( (100vw - 400px)/2 );
+}
+
+.refreshbtn{
+    padding: .75rem;
+    font-size: 1rem;
+    background-color: #F97316;
+    border: 1px solid;
+    border-radius: .5rem;
+    font-weight: 500;
+    color: #ffffff;
+    margin-right:20px;
+}
+
+.cancelbtn{
+    padding: .75rem;
+    font-size: 1rem;
+    border: 1px solid black;
+    border-radius: .5rem;
+    background-color: #ffffff;
+}
+
+.backdrop{
+    height:100vh;
+    width: 100vw;
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 10;
+}
