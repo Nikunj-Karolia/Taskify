@@ -8,7 +8,9 @@ import AuthInput from "../../components/authinput/input";
 import AuthButton from "../../components/authbutton/button";
 
 import LoginCss from "../login/Login.module.css";
-import { useEffect, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
+
+import { NotifyContext } from "../../components/notification/notification"; 
 
 function NewTask({createTask, getTask, edit, expires}){
     const navigate = useNavigate();
@@ -17,6 +19,7 @@ function NewTask({createTask, getTask, edit, expires}){
     const name = useRef();
     const desc= useRef();
 
+    const handleNotify = useContext(NotifyContext);
     async function handleFormSubmit(e){
         e.preventDefault();
         const formElem = e.target;
@@ -29,22 +32,25 @@ function NewTask({createTask, getTask, edit, expires}){
         }
 
 
-        // try{
-        //     const res =  await fetch("http://localhost:5000/api/task",{
-        //         method: edit ? 'PATCH': 'POST',
-        //         headers:{
-        //             'Content-Type': 'application/json'
-        //         },
-        //         body: JSON.stringify(formObject)
-        //     });
+        try{
+            const res =  await fetch(`http://localhost:5000/api/task${edit? `/${id}`:null}`,{
+                method: edit ? 'PATCH': 'POST',
+                credentials: "include",
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formObject)
+            });
 
-        //     if(res.ok){
-        //         navigate("/dashboard");
-        //         createTask(formObject);
-        //     }
-        // }catch(e){
-        //     console.error(e);
-        // }
+            if(res.ok){
+                handleNotify(edit ?'Task Created' : 'Task Updated');
+                navigate("/dashboard");
+                createTask(formObject);
+            }
+        }catch(e){
+            handleNotify('Operation Failed','#EF4444');
+            console.error(e);
+        }
         navigate("/dashboard");
         createTask(formObject);
     }

@@ -12,19 +12,6 @@ function App() {
     const [task,setTask] = useState([]);
     const [expires,setExpires] = useState((new Date()).toString());
     const {id} = useParams();
-    useEffect(()=>{
-        setTask([{
-          id: 1,
-          name:'test1',
-          desc:'Description for test1',
-        },
-        {
-          id: 2,
-          name:'test2',
-          desc:'Description for test2',
-        }
-    ]);
-    },[]);
 
     function getTask(id){
       return task.find(prev => prev.id == id);
@@ -36,7 +23,6 @@ function App() {
     }
 
     function deleteTask(e,id){
-      e.preventDefault();
       setTask(prev=> prev.filter(data => data.id !== id));
     }
 
@@ -51,12 +37,12 @@ function App() {
 
   return (   
     <BrowserRouter>
-      <RefreshToken refreshExpires={setExpires}/>
+      <RefreshToken expires={expires} refreshExpires={setExpires}/>
       <Notification>
       <Routes>
         <Route path='/' element={<Login setLogout={setExpires}/>} />
         <Route path='/signup' element={<Signup/>} />
-        <Route path='/dashboard' element={<Dashboard task={task} expires={expires} deleteTask={deleteTask}/>} />
+        <Route path='/dashboard' element={<Dashboard task={task} expires={expires} deleteTask={deleteTask} setTask={setTask}/>} />
         <Route path='/new' element={<NewTask edit={false} expires={expires} createTask={handleAddTask}/>} />
         <Route path='/edit/:id' element={<NewTask edit={true} expires={expires} getTask={getTask}  createTask={updateTask}/>} />
       </Routes>

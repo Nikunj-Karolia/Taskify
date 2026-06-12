@@ -110,6 +110,7 @@ router.post("/",validate(taskSchema),async(req,res)=>{
         const response = await db.query(`SELECT * FROM create_task('${name}','${desc}','${id}')`);
         res.json(response.rows);
     } catch (error) {
+        error.json();
         res.status(500).send(error);  
     }
 });

@@ -4,8 +4,23 @@ import HeaderCss from "./header.module.css";
 
 function Header({children}){
     const navigate = useNavigate();
-    function handleLogout(e){
+    async function handleLogout(e){
         e.preventDefault();
+        try {
+            const res = await fetch("http://localhost:5000/api/auth/logout",{
+                method: 'POST',
+                credentials: "include",
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            });
+            const json = await res.json();
+            if(!res.ok){
+                console.error(json);
+            }
+        } catch (error) {
+            console.error(error);
+        }
         navigate("/");
     }
     return (

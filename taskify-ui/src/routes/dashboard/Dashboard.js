@@ -8,15 +8,20 @@ import DeleteBtn from "../../components/deletebutton/delete";
 
 import AuthButtonCss from "../../components/authbutton/button.module.css";
 import DashboardCss from "./Dashboard.module.css";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
+
+import { NotifyContext } from "../../components/notification/notification"; 
 
 // {
 //     "name":"fbvsgb",
 //     "desc":"afvskjbs"
 // }
 
-function Dashboard({task, deleteTask,expires}){
+function Dashboard({task, deleteTask,expires,setTask}){
     const navigate = useNavigate();
+
+    const handleNotify = useContext(NotifyContext);
+
     function handleNewTask(element){
         navigate("/new");
     }
@@ -44,6 +49,56 @@ function Dashboard({task, deleteTask,expires}){
             clearTimeout(timeout);
         };
     },[expires]);
+    
+    async function loadTask(){
+
+        try {
+            const res = await fetch("http://localhost:5000/api/task",{
+                method:'GET',
+                credentials: "include",
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            const json = await res.json();
+            if(res.ok){
+                setTask(json);
+            }else{
+                throw new Error(JSON.stringify(json));
+            }
+        } catch (error) {
+            console.error(error);
+            navigate("/");
+        }
+    }
+
+    async function handleDelete(event, id){
+        event.preventDefault();
+        try {
+            const res = await fetch(`http://localhost:5000/api/task/${id}`,{
+                method: 'DELETE',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            const json = await res.json();
+            if(res.ok){
+                handleNotify('Task Deleted');
+                deleteTask(event,id);
+            }
+            else{
+                handleNotify('Operation Failed','#EF4444');
+                console.error(json);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    useEffect(()=>{
+        loadTask();
+    },[]);
 
     return (
         <Fragment>
@@ -68,7 +123,7 @@ function Dashboard({task, deleteTask,expires}){
                                     <td>{element.desc}</td>
                                     <td style={{display: "inline-flex"}}>
                                         <EditBtn onClick={e=>handleEdit(e,element.id)}/>
-                                        <DeleteBtn onClick={ e=>deleteTask(e, element.id)}/>
+                                        <DeleteBtn onClick={ e=>handleDelete(e, element.id)}/>
                                     </td>
                                 </tr>
                             ))}

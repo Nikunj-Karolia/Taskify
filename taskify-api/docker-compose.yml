@@ -1,0 +1,11 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker-compose.yml
+  db:
+    image: postgres
+    restart: unless-stopped
+    user: ${PG_USER}
+    expose:
+      - 5432

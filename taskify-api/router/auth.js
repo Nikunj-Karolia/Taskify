@@ -135,19 +135,17 @@ router.post("/login",validate(userLogin),async(req,res)=>{
             algorithm: "HS512"
         });
 
-        res.cookie("token",token,{
-            maxAge: 3600*1000,
+        res.cookie('token',token,{
             httpOnly: true,
-            // sameSite: 'none',
-            path: "/",
-            // secure:true,
-            // domain: "http://example.com"
+            sameSite: 'Lax',   // works cross-port on localhost
+            maxAge: 60 * 60 * 1000, // 1 hour
         }).send(JSON.stringify({
             login: true,
             expires: 3600
         }));
     }catch(e){
-        res.status(500).send(e);
+        console.error(JSON.stringify(e));
+        res.status(500).send(e.message);
     }
 });
 
@@ -203,20 +201,22 @@ router.post("/refresh",expressjwt,(req,res)=>{
     const token = jwt.sign({
         id:id
     },
-    "Taskify",{
+    process.env.SECRET,{
             expiresIn: "1h",
             algorithm: "HS512"
     });
 
 
     res.cookie("token",token,{
-        maxAge: 3600,
+        maxAge: 60 * 60 * 1000,
         httpOnly: true,
-        sameSite: true,
-        path: "/",
+        sameSite: 'lax',
+        // path: "/",
         // secure:true,
         // domain: "http://example.com"
     }).send(JSON.stringify({
+        refresh: true,
+        login: true,
         expires: 3600
     }));
 });

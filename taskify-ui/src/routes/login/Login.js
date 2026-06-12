@@ -17,6 +17,7 @@ function Login({setLogout}){
         try{
             const res = await fetch("http://localhost:5000/api/auth/login",{
                 method: 'POST',
+                credentials: "include",
                 headers:{
                     'Content-Type': 'application/json'
                 },
@@ -29,7 +30,6 @@ function Login({setLogout}){
                 setLogout(d.toString());                                                                                                                      
                 navigate("/dashboard");
             }
-            console.log(res);
         }catch(e){
             console.error(e);
         }
