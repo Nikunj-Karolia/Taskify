@@ -33,7 +33,7 @@ function NewTask({createTask, getTask, edit, expires}){
 
 
         try{
-            const res =  await fetch(`http://localhost:5000/api/task${edit? `/${id}`:null}`,{
+            const res =  await fetch(`/api/task${edit? `/${id}`:null}`,{
                 method: edit ? 'PATCH': 'POST',
                 credentials: "include",
                 headers:{

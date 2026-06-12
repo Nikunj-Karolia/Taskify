@@ -28,7 +28,7 @@ function Signup(){
         delete formObject.confpass;
 
         try{
-            const res = await fetch("http://localhost:5000/api/auth/register",{
+            const res = await fetch("/api/auth/register",{
                 method: 'POST',
                 credentials: "include",
                 headers:{

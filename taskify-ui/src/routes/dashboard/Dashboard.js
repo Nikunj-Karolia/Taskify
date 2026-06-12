@@ -53,7 +53,7 @@ function Dashboard({task, deleteTask,expires,setTask}){
     async function loadTask(){
 
         try {
-            const res = await fetch("http://localhost:5000/api/task",{
+            const res = await fetch("/api/task",{
                 method:'GET',
                 credentials: "include",
                 headers: {
@@ -75,7 +75,7 @@ function Dashboard({task, deleteTask,expires,setTask}){
     async function handleDelete(event, id){
         event.preventDefault();
         try {
-            const res = await fetch(`http://localhost:5000/api/task/${id}`,{
+            const res = await fetch(`/api/task/${id}`,{
                 method: 'DELETE',
                 credentials: 'include',
                 headers: {

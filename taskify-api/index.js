@@ -7,9 +7,11 @@ const swaggerSpec = require('./swagger');
 
 const cors = require('./middleware/cors');
 const jwt = require('./middleware/jwt');
+const error = require('./middleware/error');
 
 const authRouter =  require('./router/auth');
 const taskRouter = require('./router/task');
+const { spa, spaDefault } = require('./middleware/spa');
 
 const app = express();
 const port = 5000;
@@ -23,6 +25,8 @@ app.use(express.json());
 app.use("/api/auth",authRouter);
 app.use("/api/task",jwt,taskRouter);
 app.use("/api-doc",swaggerUi.serve,swaggerUi.setup(swaggerSpec));
+
+app.use(spa);
 
 app.listen(port,address,()=>{
     console.log(`Server: Express JS`);
