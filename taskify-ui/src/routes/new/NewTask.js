@@ -90,7 +90,7 @@ function NewTask({createTask, getTask, edit, expires}){
             <main className={DashboardCss.main}>
                 <form className={LoginCss.form} onSubmit={handleFormSubmit}>
                     <AuthInput type="text" name="name" {...(edit && {ref:name})} label="Task Name" placeholder="Enter task name"/>
-                    <AuthInput type="text" name="desc" {...(edit && {ref:desc})} label="Descripton" placeholder="Enter description"/>
+                    <AuthInput type="text" name="description" {...(edit && {ref:desc})} label="Descripton" placeholder="Enter description"/>
                     {/* <AuthInput type="text" name="status" {...(edit && {value:task.desc})} label="Status" placeholder="Enter status"/> */}
                     <AuthButton text="Create task"/>
                 </form>

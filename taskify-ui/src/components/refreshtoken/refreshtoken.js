@@ -7,6 +7,9 @@ function RefreshToken({expires,refreshExpires}){
     useEffect(()=>{
         const d= new Date();
         const e = new Date(expires);
+
+        if(!open) return;
+
         const timeout = (e-d>300000) ? setTimeout(()=>{
             setOpen(true);
         },e-d-300000) :setOpen(true);
@@ -14,7 +17,7 @@ function RefreshToken({expires,refreshExpires}){
             setCount(300);
             clearTimeout(timeout);
         }
-    },[expires]);
+    },[open,expires]);
 
     useEffect(()=>{
 

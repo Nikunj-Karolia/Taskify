@@ -4,7 +4,7 @@ const userDetail = z.object({
     email: z.string().email(),
     password: z.string().min(8),
     dob: z.string().date(),
-    phone_numer: z.string().min(10).max(13)
+    phone_number: z.string().min(10).max(13)
 });
 
 const userLogin = z.object({
