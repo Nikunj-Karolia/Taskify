@@ -65,10 +65,10 @@ A production-ready full-stack task management application. React frontend served
 ```bash
 # 1. Clone the repo
 git clone https://github.com/nikunj-karolia/taskify
-cd taskify
+cd taskify/taskify-api
 
 # 2. Copy environment file
-cp .env.example .env
+cp .env .env
 
 # 3. Start the stack
 docker compose up
@@ -84,20 +84,15 @@ Swagger docs at `http://localhost:5000/api/docs`
 Copy `.env.example` to `.env` and fill in the values:
 
 ```env
-PORT=5000
-NODE_ENV=production
 
 # PostgreSQL
-DB_HOST=db
-DB_PORT=5432
-DB_NAME=taskify
-DB_USER=taskify_user
-DB_PASSWORD=your_db_password
+PG_USER=postgres
+PG_PASSWORD=postgres
+PG_DB=mydb
+PG_PORT=5432
 
 # JWT
-JWT_SECRET=your_256_bit_secret
-JWT_ACCESS_EXPIRES=15m
-JWT_REFRESH_EXPIRES=7d
+SECRET=Taskify
 ```
 
 Generate a secure JWT secret:
@@ -159,8 +154,8 @@ On every `/api/auth/refresh` call the old refresh token is invalidated and a new
 ### Session-aware refresh prompt
 The frontend tracks the access token expiry time and shows a session extension dialog 5 minutes before expiry. This prevents users from losing unsaved work due to a silent session timeout — the token is refreshed in the background if the user confirms.
 
-### Global auth context
-Authentication state is managed via React Context and shared across the entire application. Components never manage auth state locally — they read from and dispatch to the global context, keeping auth logic in one place.
+### Global notify context
+Notifcation state is managed via React Context and shared across the entire application. Components never manage auth state locally — they read from and dispatch to the global context, keeping notify logic in one place.
 
 ---
 
@@ -171,56 +166,62 @@ taskify/
 ├── taskify-ui/                   — React frontend
 │   ├── public/
 │   └── src/
-│       ├── components/       — reusable UI components
-│       │   ├── authbutton   — custom JWT middleware
-│       │   │   ├── button.js   — custom JWT middleware
-│       │   │   └── button.module.css   — custom JWT middleware
-│       │   ├── authinput   — custom JWT middleware
-│       │   │   ├── input.js   — custom JWT middleware
-│       │   │   └── input.module.css   — custom JWT middleware
-│       │   ├── deletebutton   — custom JWT middleware
-│       │   │   ├── delete.js   — custom JWT middleware
-│       │   │   └── delete.module.css   — custom JWT middleware
-│       │   ├── editbutton   — custom JWT middleware
-│       │   │   ├── edit.js   — custom JWT middleware
-│       │   │   └── edit.module.css   — custom JWT middleware
-│       │   ├── header   — custom JWT middleware
-│       │   │   ├── header.js   — custom JWT middleware
-│       │   │   └── header.module.css   — custom JWT middleware
-│       │   ├── notification   — custom JWT middleware
-│       │   │   ├── notification.js   — custom JWT middleware
-│       │   │   └── notification.module.css   — custom JWT middleware
-│       │   └── refreshtoken   — custom JWT middleware
-│       │       ├── refreshtoken.js   — custom JWT middleware
-│       │       └── refreshtoken.module.css   — custom JWT middleware
-│       ├── routes/         — API call functions
-│       │   ├── dashboard   — custom JWT middleware
-│       │   │   ├── Dashboard.js   — custom JWT middleware
-│       │   │   └── Dashboard.module.css   — custom JWT middleware
-│       │   ├── login   — custom JWT middleware
-│       │   │   ├── Login.js   — custom JWT middleware
-│       │   │   └── Login.module.css   — custom JWT middleware
-│       │   ├── new   — custom JWT middleware
-│       │   │   └── NewTask.js   — custom JWT middleware
-│       │   ├── signup   — custom JWT middleware
-│       │   │   ├── Signup.js   — custom JWT middleware
-│       │   │   └── Signup.module.css   — custom JWT middleware
+│       ├── components/           — reusable UI components
+│       │   ├── authbutton        — custom auth button
+│       │   │   ├── button.js   
+│       │   │   └── button.module.css   
+│       │   ├── authinput         — custom auth input
+│       │   │   ├── input.js  
+│       │   │   └── input.module.css  
+│       │   ├── deletebutton      — custom delete button
+│       │   │   ├── delete.js   
+│       │   │   └── delete.module.css   
+│       │   ├── editbutton        — custom edit button
+│       │   │   ├── edit.js   
+│       │   │   └── edit.module.css   
+│       │   ├── header            — custom header
+│       │   │   ├── header.js  
+│       │   │   └── header.module.css   
+│       │   ├── notification      — custom notification context
+│       │   │   ├── notification.js   
+│       │   │   └── notification.module.css   
+│       │   └── refreshtoken      — custom refresh token component
+│       │       ├── refreshtoken.js   
+│       │       └── refreshtoken.module.css   
+│       ├── routes/                  — API call functions
+│       │   ├── dashboard        — Dashboard Page
+│       │   │   ├── Dashboard.js   
+│       │   │   └── Dashboard.module.css   
+│       │   ├── login            — Login Page
+│       │   │   ├── Login.js   
+│       │   │   └── Login.module.css   
+│       │   ├── new              — New Task Page
+│       │   │   └── NewTask.js   
+│       │   ├── signup            — Signup Page
+│       │   │   ├── Signup.js   
+│       │   │   └── Signup.module.css   
 │       └── App.js
-├── taskify-api/                   — React frontend
+├── taskify-api/                   — Express API 
 │   ├── public/
 │   ├── components/       — reusable UI components
 │   │   └── pg.js
-│   ├── db/               — reusable UI components
-│   ├── middleware/       — reusable UI components
+│   ├── db/               — db 
+│   │   ├── init/         — init files for postgres db
+│   │   │   ├── 0-trigger.sql   
+│   │   │   ├── 1-user.sql
+│   │   │   ├── 2-task.sql 
+│   │   │   └── 3-role.sql  
+│   │   └── data/
+│   ├── middleware/       — reusable middleware
 │   │   ├── cors.js
 │   │   ├── error.js
 │   │   ├── jwt.js
 │   │   ├── sps.js
 │   │   └── validate.js
-│   ├── router/               — reusable UI components
+│   ├── router/               — routers for express
 │   │   ├── auth.js
 │   │   └── task.js
-│   ├── schema/       — reusable UI components
+│   ├── schema/               — schema for zod
 │   │   ├── authSchema.js
 │   │   └── taskSchema.js
 │   ├── docker-compose.yml
