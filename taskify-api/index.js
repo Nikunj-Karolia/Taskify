@@ -7,7 +7,6 @@ const swaggerSpec = require('./swagger');
 
 const cors = require('./middleware/cors');
 const jwt = require('./middleware/jwt');
-const error = require('./middleware/error');
 
 const authRouter =  require('./router/auth');
 const taskRouter = require('./router/task');
